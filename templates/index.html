@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="cards">
+    <div class="card">
+        <h3>Баланс</h3>
+        <p>{{ "%.2f"|format(balance) }} ₽</p>
+    </div>
+
+    <div class="card">
+        <h3>Доходы</h3>
+        <p>{{ "%.2f"|format(income) }} ₽</p>
+    </div>
+
+    <div class="card">
+        <h3>Расходы</h3>
+        <p>{{ "%.2f"|format(expenses) }} ₽</p>
+    </div>
+</div>
+
+<h2>История операций</h2>
+
+<table>
+    <tr>
+        <th>Дата</th>
+        <th>Тип</th>
+        <th>Категория</th>
+        <th>Сумма</th>
+        <th>Действие</th>
+    </tr>
+
+    {% for transaction in transactions %}
+    <tr>
+        <td>{{ transaction.date.strftime("%d.%m.%Y") }}</td>
+        <td>
+            {% if transaction.type == "income" %}
+                Доход
+            {% else %}
+                Расход
+            {% endif %}
+        </td>
+        <td>{{ transaction.category }}</td>
+        <td>{{ "%.2f"|format(transaction.amount) }} ₽</td>
+        <td>
+            <form action="{{ url_for('delete_transaction', id=transaction.id) }}"
+                  method="POST">
+                <button type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
