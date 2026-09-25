@@ -86,4 +86,4 @@ if __name__ == "__main__":
 import os
 
 # База данных будет создаваться в памяти /tmp
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@your-db-host:5432/dbname'
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
