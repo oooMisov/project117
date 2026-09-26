@@ -1,55 +1,88 @@
 {% extends "base.html" %}
-
+{% block title %}Обзор — Мой бюджет{% endblock %}
 {% block content %}
-
-<div class="cards">
-    <div class="card">
-        <h3>Баланс</h3>
-        <p>{{ "%.2f"|format(balance) }} ₽</p>
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">Финансы</div>
+        <h1>Ваш бюджет</h1>
+        <p class="muted">Все операции в одном месте.</p>
     </div>
-
-    <div class="card">
-        <h3>Доходы</h3>
-        <p>{{ "%.2f"|format(income) }} ₽</p>
-    </div>
-
-    <div class="card">
-        <h3>Расходы</h3>
-        <p>{{ "%.2f"|format(expenses) }} ₽</p>
-    </div>
+    <a class="button button-primary" href="{{ url_for('add_transaction') }}">+ Добавить операцию</a>
 </div>
 
-<h2>История операций</h2>
+<section class="summary-grid">
+    <article class="summary-card summary-balance">
+        <span>Баланс</span>
+        <strong>{{ "%.2f"|format(balance) }} ₽</strong>
+        <small>Доходы минус расходы</small>
+    </article>
+    <article class="summary-card">
+        <span>Доходы</span>
+        <strong class="amount-positive">+{{ "%.2f"|format(income) }} ₽</strong>
+        <small>Всего поступлений</small>
+    </article>
+    <article class="summary-card">
+        <span>Расходы</span>
+        <strong class="amount-negative">−{{ "%.2f"|format(expenses) }} ₽</strong>
+        <small>Всего списаний</small>
+    </article>
+</section>
 
-<table>
-    <tr>
-        <th>Дата</th>
-        <th>Тип</th>
-        <th>Категория</th>
-        <th>Сумма</th>
-        <th>Действие</th>
-    </tr>
+<section class="section-card">
+    <div class="section-heading">
+        <div>
+            <h2>История операций</h2>
+            <p class="muted">Последние записи отсортированы по дате.</p>
+        </div>
+        <span class="counter">{{ transactions|length }}</span>
+    </div>
 
-    {% for transaction in transactions %}
-    <tr>
-        <td>{{ transaction.date.strftime("%d.%m.%Y") }}</td>
-        <td>
-            {% if transaction.type == "income" %}
-                Доход
-            {% else %}
-                Расход
-            {% endif %}
-        </td>
-        <td>{{ transaction.category }}</td>
-        <td>{{ "%.2f"|format(transaction.amount) }} ₽</td>
-        <td>
-            <form action="{{ url_for('delete_transaction', id=transaction.id) }}"
-                  method="POST">
-                <button type="submit">Удалить</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-
+    {% if transactions %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Операция</th>
+                <th>Категория</th>
+                <th class="align-right">Сумма</th>
+                <th aria-label="Действия"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td class="date-cell">{{ transaction.date.strftime('%d.%m.%Y') }}</td>
+                <td>
+                    <span class="type-pill {{ 'income' if transaction.type == 'income' else 'expense' }}">
+                        {{ 'Доход' if transaction.type == 'income' else 'Расход' }}
+                    </span>
+                </td>
+                <td>
+                    <strong>{{ transaction.category }}</strong>
+                    {% if transaction.comment %}<div class="comment">{{ transaction.comment }}</div>{% endif %}
+                </td>
+                <td class="align-right amount {{ 'amount-positive' if transaction.type == 'income' else 'amount-negative' }}">
+                    {{ '+' if transaction.type == 'income' else '−' }}{{ "%.2f"|format(transaction.amount) }} ₽
+                </td>
+                <td class="action-cell">
+                    <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post" onsubmit="return confirm('Удалить эту операцию?');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="icon-button" type="submit" aria-label="Удалить операцию" title="Удалить">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">₽</div>
+        <h3>Пока нет операций</h3>
+        <p class="muted">Добавьте первую запись, чтобы начать вести бюджет.</p>
+        <a class="button button-primary" href="{{ url_for('add_transaction') }}">Добавить первую операцию</a>
+    </div>
+    {% endif %}
+</section>
 {% endblock %}
