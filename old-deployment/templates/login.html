@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Вход — Мой бюджет{% endblock %}
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-card">
+        <div class="eyebrow">Личный кабинет</div>
+        <h1>С возвращением</h1>
+        <p class="muted">Войдите, чтобы увидеть свои доходы и расходы.</p>
+        {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+        <form method="post" class="form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label for="username">Логин</label>
+            <input id="username" type="text" name="username" value="{{ username }}" maxlength="50" autocomplete="username" required>
+            <label for="password">Пароль</label>
+            <input id="password" type="password" name="password" autocomplete="current-password" required>
+            <button class="button button-primary button-wide" type="submit">Войти</button>
+        </form>
+        <p class="auth-footer">Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+    </div>
+</section>
+{% endblock %}
