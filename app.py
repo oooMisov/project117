@@ -1,5 +1,4 @@
 import os
-
 from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for
@@ -39,6 +38,12 @@ class Transaction(db.Model):
     date = db.Column(db.DateTime, default=datetime.now)
 
 
+class Goal(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+
+
 @app.route("/")
 def index():
     transactions = Transaction.query.order_by(
@@ -55,12 +60,27 @@ def index():
 
     balance = income - expenses
 
+    goal = Goal.query.first()
+
+    saved_amount = max(balance, 0)
+
+    if goal and goal.amount > 0:
+        goal_percent = min((saved_amount / goal.amount) * 100, 100)
+        goal_remaining = max(goal.amount - saved_amount, 0)
+    else:
+        goal_percent = 0
+        goal_remaining = 0
+
     return render_template(
         "index.html",
         transactions=transactions,
         income=income,
         expenses=expenses,
-        balance=balance
+        balance=balance,
+        goal=goal,
+        saved_amount=saved_amount,
+        goal_percent=goal_percent,
+        goal_remaining=goal_remaining,
     )
 
 
@@ -85,6 +105,28 @@ def add_transaction():
         return redirect(url_for("index"))
 
     return render_template("add.html")
+
+
+@app.route("/goal", methods=["POST"])
+def save_goal():
+    name = request.form["name"].strip()
+    amount = float(request.form["amount"])
+
+    if not name or amount <= 0:
+        return redirect(url_for("index"))
+
+    goal = Goal.query.first()
+
+    if goal:
+        goal.name = name
+        goal.amount = amount
+    else:
+        goal = Goal(name=name, amount=amount)
+        db.session.add(goal)
+
+    db.session.commit()
+
+    return redirect(url_for("index"))
 
 
 @app.route("/delete/<int:id>", methods=["POST"])

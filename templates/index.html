@@ -28,6 +28,75 @@
     </article>
 </section>
 
+<section class="section-card goal-section">
+    <div class="section-heading">
+        <div>
+            <h2>🎯 Цель накопления</h2>
+            <p class="muted">Накопленная сумма рассчитывается по текущему балансу.</p>
+        </div>
+    </div>
+
+    {% if goal %}
+    <div class="goal-info">
+        <div class="goal-top">
+            <div>
+                <h3>{{ goal.name }}</h3>
+                <p class="muted">
+                    {{ "%.2f"|format(saved_amount) }} ₽ из {{ "%.2f"|format(goal.amount) }} ₽
+                </p>
+            </div>
+            <strong class="goal-percent">{{ "%.0f"|format(goal_percent) }}%</strong>
+        </div>
+
+        <div class="goal-progress">
+            <div class="goal-progress-fill" style="width: {{ goal_percent }}%;"></div>
+        </div>
+
+        <p class="goal-remaining">
+            {% if goal_remaining > 0 %}
+                Осталось накопить <strong>{{ "%.2f"|format(goal_remaining) }} ₽</strong>
+            {% else %}
+                🎉 Цель достигнута!
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('save_goal') }}" method="post" class="goal-form">
+        <div class="goal-fields">
+            <div>
+                <label for="goal-name">Название цели</label>
+                <input
+                    id="goal-name"
+                    type="text"
+                    name="name"
+                    placeholder="Например, новый телефон"
+                    value="{{ goal.name if goal else '' }}"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="goal-amount">Сумма цели</label>
+                <input
+                    id="goal-amount"
+                    type="number"
+                    name="amount"
+                    step="0.01"
+                    min="0.01"
+                    placeholder="50000"
+                    value="{{ goal.amount if goal else '' }}"
+                    required
+                >
+            </div>
+        </div>
+
+        <button class="button button-primary" type="submit">
+            {{ 'Изменить цель' if goal else 'Сохранить цель' }}
+        </button>
+    </form>
+</section>
+
 <section class="section-card">
     <div class="section-heading">
         <div>
@@ -67,7 +136,6 @@
                 </td>
                 <td class="action-cell">
                     <form action="{{ url_for('delete_transaction', id=transaction.id) }}" method="post" onsubmit="return confirm('Удалить эту операцию?');">
-               
                         <button class="icon-button" type="submit" aria-label="Удалить операцию" title="Удалить">Удалить</button>
                     </form>
                 </td>

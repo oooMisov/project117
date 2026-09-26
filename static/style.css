@@ -84,3 +84,85 @@ button:hover {
     margin: 8px 0 15px;
     box-sizing: border-box;
 }
+
+/* Цель накопления */
+.goal-section {
+    margin-top: 24px;
+}
+
+.goal-info {
+    margin-bottom: 24px;
+}
+
+.goal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.goal-top h3 {
+    margin: 0 0 6px;
+    font-size: 22px;
+}
+
+.goal-percent {
+    font-size: 28px;
+}
+
+.goal-progress {
+    width: 100%;
+    height: 12px;
+    margin: 18px 0 12px;
+    background: #e9eef3;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.goal-progress-fill {
+    height: 100%;
+    background: #3498db;
+    border-radius: 999px;
+    transition: width 0.3s ease;
+}
+
+.goal-remaining {
+    margin: 0;
+}
+
+.goal-form {
+    border-top: 1px solid #edf0f2;
+    padding-top: 22px;
+}
+
+.goal-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.goal-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.goal-form input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d9e0e6;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+@media (max-width: 700px) {
+    .goal-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-top {
+        align-items: flex-start;
+    }
+}
