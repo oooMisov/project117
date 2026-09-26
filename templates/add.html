@@ -1,35 +1,49 @@
 {% extends "base.html" %}
-
+{% block title %}Новая операция — Мой бюджет{% endblock %}
 {% block content %}
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">Операции</div>
+        <h1>Добавить операцию</h1>
+        <p class="muted">Запишите доход или расход — баланс обновится автоматически.</p>
+    </div>
+    <a class="button button-secondary" href="{{ url_for('index') }}">← Назад</a>
+</div>
 
-<h2>Добавить операцию</h2>
-
-<form method="POST" class="form">
-
-    <label>Сумма:</label>
-    <input type="number" name="amount" step="0.01" min="0.01" required>
-
-    <label>Тип операции:</label>
-    <select name="type">
-        <option value="income">Доход</option>
-        <option value="expense">Расход</option>
-    </select>
-
-    <label>Категория:</label>
-    <select name="category">
-        <option>Еда</option>
-        <option>Транспорт</option>
-        <option>Развлечения</option>
-        <option>Учёба</option>
-        <option>Зарплата</option>
-        <option>Другое</option>
-    </select>
-
-    <label>Комментарий:</label>
-    <input type="text" name="comment">
-
-    <button type="submit">Сохранить</button>
-
-</form>
-
+<div class="form-card">
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <form method="post" class="form form-grid">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="field field-wide">
+            <label for="amount">Сумма, ₽</label>
+            <input id="amount" type="number" name="amount" value="{{ form_data.amount }}" step="0.01" min="0.01" max="9999999999.99" inputmode="decimal" placeholder="0,00" required>
+        </div>
+        <div class="field">
+            <label for="type">Тип</label>
+            <select id="type" name="type" required>
+                <option value="income" {% if form_data.type == 'income' %}selected{% endif %}>Доход</option>
+                <option value="expense" {% if form_data.type == 'expense' %}selected{% endif %}>Расход</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="category">Категория</label>
+            <select id="category" name="category" required>
+                {% for category in categories %}
+                    <option value="{{ category }}" {% if form_data.category == category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="field">
+            <label for="date">Дата</label>
+            <input id="date" type="date" name="date" value="{{ form_data.date }}" required>
+        </div>
+        <div class="field field-wide">
+            <label for="comment">Комментарий <span class="optional">необязательно</span></label>
+            <input id="comment" type="text" name="comment" value="{{ form_data.comment }}" maxlength="200" placeholder="Например, продукты на неделю">
+        </div>
+        <div class="field-wide form-actions">
+            <button class="button button-primary" type="submit">Сохранить операцию</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
