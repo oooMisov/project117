@@ -8,3 +8,5 @@ __pycache__/
 
 .vercel
 .env*
+download
+old-deployment/

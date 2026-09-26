@@ -1,23 +1,57 @@
 :root {
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: #172033;
-    background: #f6f8fb;
-    font-synthesis: none;
     --ink: #172033;
-    --muted: #6b7280;
-    --line: #e7ebf1;
+    --muted: #64748b;
+    --line: #e2e8f0;
     --surface: #ffffff;
+    --background: #f6f8fb;
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
-    --positive: #087443;
-    --positive-bg: #e9f8f0;
-    --negative: #c0392b;
-    --negative-bg: #fff0ee;
-    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    --positive: #008f5a;
+    --positive-bg: #e9f9f2;
+    --negative: #c73524;
+    --negative-bg: #fff0ed;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
+html[data-theme="dark"] {
+    --ink: #f1f5f9;
+    --muted: #94a3b8;
+    --line: #334155;
+    --surface: #1e293b;
+    --background: #0f172a;
+    --primary: #3b82f6;
+    --primary-dark: #60a5fa;
+    --positive: #34d399;
+    --positive-bg: #064e3b;
+    --negative: #f87171;
+    --negative-bg: #450a0a;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="dark"] {
+    --ink: #f1f5f9;
+    --muted: #94a3b8;
+    --line: #334155;
+    --surface: #1e293b;
+    --background: #0f172a;
+    --primary: #3b82f6;
+    --primary-dark: #60a5fa;
+    --positive: #34d399;
+    --positive-bg: #064e3b;
+    --negative: #f87171;
+    --negative-bg: #450a0a;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; background: #f6f8fb; color: var(--ink); }
+body { margin: 0; margin: 0; background: #f6f8fb; color: var(--ink); }
+body {
+    margin: 0;
+    margin: 0;
+    background: var(--background);
+    color: var(--ink);
+}
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -124,4 +158,520 @@ tbody tr:last-child td { border-bottom: 0; }
     .auth-card { padding: 25px 20px; }
     .summary-card { padding: 18px; }
     .summary-card strong { font-size: 26px; }
+}
+.theme-toggle {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 9px 12px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* =========================
+   GOALS
+   ========================= */
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.goal-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+
+.goal-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.goal-icon {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.goal-card h2 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: -.02em;
+}
+
+.goal-percent {
+    display: grid;
+    place-items: center;
+    min-width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--positive-bg);
+    color: var(--positive);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.goal-progress {
+    height: 10px;
+    margin: 24px 0 18px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--line);
+}
+
+.goal-progress-bar {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--primary);
+    transition: width .3s ease;
+}
+
+.goal-amounts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.goal-amounts span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.goal-amounts strong {
+    font-size: 18px;
+}
+
+.goal-target {
+    text-align: right;
+}
+
+.goal-remaining {
+    margin-top: 20px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: var(--negative-bg);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.goal-remaining strong {
+    color: var(--ink);
+}
+
+.goal-delete-form {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.goal-delete-form .icon-button {
+    color: var(--muted);
+}
+
+/* Мобильная версия */
+
+@media (max-width: 760px) {
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-card {
+        padding: 20px;
+    }
+}
+.goal-actions {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.goal-money-form {
+    display: flex;
+    gap: 8px;
+}
+
+.goal-money-form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 42px;
+    border: 1px solid #d9dee7;
+    border-radius: 9px;
+    padding: 0 12px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    outline: none;
+}
+
+.goal-money-form input:focus {
+    border-color: #7aa2f7;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
+}
+
+.goal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.goal-buttons form {
+    margin: 0;
+}
+
+.button-danger {
+    background: #fff;
+    color: var(--negative);
+    border: 1px solid #f0c8c4;
+}
+
+.button-danger:hover {
+    background: var(--negative-bg);
+}
+
+@media (max-width: 600px) {
+    .goal-money-form {
+        flex-direction: column;
+    }
+
+    .goal-buttons {
+        flex-direction: column;
+    }
+
+    .goal-buttons .button,
+    .goal-buttons form {
+        width: 100%;
+    }
+}
+/* ================================
+   ИСПРАВЛЕНИЯ ДЛЯ ТЁМНОЙ ТЕМЫ
+   ================================ */
+
+html[data-theme="dark"] {
+    --ink: #f4f7ff;
+    --muted: #b8c4d8;
+    --line: #34445f;
+    --surface: #1d2a3e;
+    --background: #0f172a;
+
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+
+    --positive: #22c55e;
+    --positive-bg: #064e3b;
+
+    --negative: #ff6b6b;
+    --negative-bg: #5b1111;
+
+    --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
+
+/* Основной фон и обычный текст */
+html[data-theme="dark"] body {
+    background: var(--background) !important;
+    color: var(--ink) !important;
+}
+
+html[data-theme="dark"] p,
+html[data-theme="dark"] .muted {
+    color: var(--muted) !important;
+}
+
+/* Заголовки */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4 {
+    color: #f8fbff !important;
+}
+
+/* Карточки */
+html[data-theme="dark"] .section-card,
+html[data-theme="dark"] .form-card,
+html[data-theme="dark"] .summary-card,
+html[data-theme="dark"] .goal-card {
+    background: #1d2a3e !important;
+    color: #f4f7ff !important;
+    border-color: #34445f !important;
+}
+
+/* Заголовок блока целей */
+html[data-theme="dark"] .section-heading {
+    background: #1d2a3e !important;
+    border-color: #34445f !important;
+}
+
+html[data-theme="dark"] .section-heading h2 {
+    color: #f8fbff !important;
+}
+
+/* Карточки целей */
+html[data-theme="dark"] .goal-card {
+    background: #1d2a3e !important;
+    color: #f4f7ff !important;
+    border-color: #3b4d69 !important;
+}
+
+html[data-theme="dark"] .goal-card h2,
+html[data-theme="dark"] .goal-card h3,
+html[data-theme="dark"] .goal-card strong,
+html[data-theme="dark"] .goal-card span,
+html[data-theme="dark"] .goal-card div {
+    color: inherit;
+}
+
+/* Название цели */
+html[data-theme="dark"] .goal-card h2,
+html[data-theme="dark"] .goal-card h3 {
+    color: #f8fbff !important;
+}
+
+/* Подписи "Накоплено" и "Цель" */
+html[data-theme="dark"] .goal-card .goal-amounts,
+html[data-theme="dark"] .goal-card .goal-amounts span {
+    color: #b8c4d8 !important;
+}
+
+/* Сами суммы */
+html[data-theme="dark"] .goal-card .goal-amounts strong {
+    color: #ffffff !important;
+}
+
+/* Процент */
+html[data-theme="dark"] .goal-percent {
+    background: #064e3b !important;
+    color: #4ade80 !important;
+}
+
+/* Полоса прогресса */
+html[data-theme="dark"] .goal-progress {
+    background: #33445f !important;
+}
+
+html[data-theme="dark"] .goal-progress-bar {
+    background: #3b82f6 !important;
+}
+
+/* Все поля ввода в тёмной теме */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .form input,
+html[data-theme="dark"] .goal-card input {
+    background: #111b2d !important;
+    color: #f8fbff !important;
+    border-color: #486080 !important;
+}
+
+/* Текст внутри поля */
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #8fa0ba !important;
+    opacity: 1;
+}
+
+/* Поле при нажатии */
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus {
+    background: #111b2d !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .25) !important;
+}
+
+/* Подписи над полями */
+html[data-theme="dark"] label,
+html[data-theme="dark"] .form label {
+    color: #f0f4fa !important;
+}
+
+/* Кнопки вторичного типа */
+html[data-theme="dark"] .button-secondary {
+    background: #1d2a3e !important;
+    color: #f8fbff !important;
+    border-color: #486080 !important;
+}
+
+html[data-theme="dark"] .button-secondary:hover {
+    background: #263750 !important;
+    color: #ffffff !important;
+}
+
+/* Кнопки "Изменить" */
+html[data-theme="dark"] .goal-card .button-secondary,
+html[data-theme="dark"] .goal-card button {
+    color: #f8fbff !important;
+}
+
+/* Кнопка удалить */
+html[data-theme="dark"] .goal-card .delete-button,
+html[data-theme="dark"] .goal-card .button-danger {
+    background: #5b1111 !important;
+    color: #ffb4b4 !important;
+    border-color: #9b2c2c !important;
+}
+
+/* Кнопка пополнения */
+html[data-theme="dark"] .goal-card .button-primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .goal-card .button-primary:hover {
+    background: #3b82f6 !important;
+}
+
+/* Текст ссылок */
+html[data-theme="dark"] a {
+    color: #8db7ff;
+}
+
+html[data-theme="dark"] a:hover {
+    color: #b5d0ff;
+}
+
+/* Сообщение "Цель удалена" */
+html[data-theme="dark"] .flash-success {
+    background: #064e3b !important;
+    color: #6ee7b7 !important;
+}
+
+/* Сообщения об ошибках */
+html[data-theme="dark"] .alert {
+    background: #5b1111 !important;
+    color: #ffb4b4 !important;
+}
+
+/* Разделители */
+html[data-theme="dark"] hr {
+    border-color: #34445f !important;
+}
+
+/* Иконки и пустые состояния */
+html[data-theme="dark"] .empty-icon {
+    background: #172642 !important;
+}
+
+/* Кнопка переключения темы */
+html[data-theme="dark"] .theme-toggle {
+    background: #1d2a3e !important;
+    color: #f8fbff !important;
+    border-color: #486080 !important;
+}
+
+/* =========================================================
+   ДОПОЛНИТЕЛЬНЫЙ КОНТРАСТ ДЛЯ ТЁМНОЙ ТЕМЫ
+   ========================================================= */
+
+html[data-theme="dark"] {
+    --ink: #f8fafc;
+    --muted: #cbd5e1;
+    --line: #475569;
+    --surface: #1e293b;
+    --background: #0f172a;
+}
+
+/* Весь основной текст */
+html[data-theme="dark"] body {
+    color: #f8fafc;
+}
+
+/* Обычный приглушённый текст */
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] .field-hint {
+    color: #cbd5e1 !important;
+}
+
+/* Заголовки */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4 {
+    color: #f8fafc;
+}
+
+/* Подписи над суммами */
+html[data-theme="dark"] .goal-label,
+html[data-theme="dark"] .goal-card small,
+html[data-theme="dark"] .goal-card .muted {
+    color: #cbd5e1 !important;
+}
+
+/* Сами суммы */
+html[data-theme="dark"] .goal-card strong,
+html[data-theme="dark"] .goal-card b {
+    color: #ffffff !important;
+}
+
+/* Название цели */
+html[data-theme="dark"] .goal-card {
+    color: #f8fafc;
+}
+
+/* Поля ввода */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+    background: #0f1b30;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Кнопки */
+html[data-theme="dark"] .button {
+    color: #ffffff;
+}
+
+/* Кнопка "Добавить цель" */
+html[data-theme="dark"] .button-primary {
+    color: #ffffff !important;
+}
+
+/* Кнопка темы */
+html[data-theme="dark"] .theme-toggle {
+    color: #f8fafc;
+}
+
+/* Прогресс */
+html[data-theme="dark"] .progress-bar {
+    background: #334155;
+}
+
+/* Блок "Осталось накопить" */
+html[data-theme="dark"] .remaining {
+    color: #fecaca;
+}
+
+/* Разделители */
+html[data-theme="dark"] hr {
+    border-color: #475569;
+}
+
+/* Ссылки */
+html[data-theme="dark"] a {
+    color: #93c5fd;
+}
+
+html[data-theme="dark"] a:hover {
+    color: #bfdbfe;
 }

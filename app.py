@@ -84,6 +84,15 @@ class Transaction(db.Model):
     comment = db.Column(db.String(200))
     date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
+class Goal(db.Model):
+    __tablename__ = "goals"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    target_amount = db.Column(db.Numeric(12, 2), nullable=False)
+    saved_amount = db.Column(db.Numeric(12, 2), nullable=False, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 def login_required(view):
     @wraps(view)
@@ -289,6 +298,244 @@ def index():
         balance=balance,
     )
 
+@app.route("/goals")
+@login_required
+def goals():
+    user_id = session["user_id"]
+
+    goals_list = Goal.query.filter_by(
+        user_id=user_id
+    ).order_by(Goal.created_at.desc()).all()
+
+    goal_data = []
+
+    for goal in goals_list:
+        target = Decimal(goal.target_amount)
+        saved = Decimal(goal.saved_amount)
+
+        if target > 0:
+            progress = int((saved / target) * 100)
+        else:
+            progress = 0
+
+        progress = min(progress, 100)
+        remaining = max(target - saved, Decimal("0"))
+
+        goal_data.append({
+            "goal": goal,
+            "target": target,
+            "saved": saved,
+            "remaining": remaining,
+            "progress": progress,
+        })
+
+    return render_template(
+        "goals.html",
+        goals=goal_data,
+    )
+
+
+@app.route("/goals/add", methods=["GET", "POST"])
+@login_required
+def add_goal():
+    error = None
+
+    form_data = {
+        "name": "",
+        "target_amount": "",
+        "saved_amount": "0",
+    }
+
+    if request.method == "POST":
+        if not validate_csrf():
+            return "Недействительный запрос. Обновите страницу и попробуйте снова.", 400
+
+        form_data.update({
+            "name": request.form.get("name", "").strip(),
+            "target_amount": request.form.get("target_amount", "").strip(),
+            "saved_amount": request.form.get("saved_amount", "").strip(),
+        })
+
+        name = form_data["name"]
+        target_amount = parse_amount(form_data["target_amount"])
+
+        try:
+            saved_amount = Decimal(
+                form_data["saved_amount"].replace(",", ".").strip()
+                or "0"
+            )
+        except (AttributeError, InvalidOperation):
+            saved_amount = None
+
+        if not name:
+            error = "Введите название цели."
+
+        elif len(name) > 100:
+            error = "Название цели не должно превышать 100 символов."
+
+        elif target_amount is None:
+            error = "Введите корректную сумму цели."
+
+        elif saved_amount is None or not saved_amount.is_finite() or saved_amount < 0:
+            error = "Введите корректную сумму накоплений."
+
+        elif saved_amount > Decimal("9999999999.99"):
+            error = "Сумма накоплений слишком большая."
+
+        elif saved_amount > target_amount:
+            error = "Накопленная сумма не может быть больше суммы цели."
+
+        else:
+            saved_amount = saved_amount.quantize(Decimal("0.01"))
+
+            goal = Goal(
+                user_id=session["user_id"],
+                name=name,
+                target_amount=target_amount,
+                saved_amount=saved_amount,
+            )
+
+            db.session.add(goal)
+            db.session.commit()
+
+            flash("Цель добавлена.", "success")
+            return redirect(url_for("goals"))
+
+    return render_template(
+        "add_goal.html",
+        error=error,
+        form_data=form_data,
+    )
+
+@app.post("/goals/add-money/<int:id>")
+@login_required
+def add_goal_money(id):
+    if not validate_csrf():
+        return "Недействительный запрос. Обновите страницу и попробуйте снова.", 400
+
+    goal = Goal.query.filter_by(
+        id=id,
+        user_id=session["user_id"]
+    ).first_or_404()
+
+    amount = parse_amount(request.form.get("amount", ""))
+
+    if amount is None:
+        flash("Введите корректную сумму пополнения.", "error")
+        return redirect(url_for("goals"))
+
+    current_saved = Decimal(goal.saved_amount or 0)
+    target = Decimal(goal.target_amount)
+
+    new_saved = current_saved + amount
+
+    if new_saved > target:
+        flash(
+            "Нельзя накопить больше суммы цели.",
+            "error"
+        )
+        return redirect(url_for("goals"))
+
+    goal.saved_amount = new_saved.quantize(Decimal("0.01"))
+
+    db.session.commit()
+
+    flash("Цель пополнена.", "success")
+
+    return redirect(url_for("goals"))
+
+@app.route("/goals/edit/<int:id>", methods=["GET", "POST"])
+@login_required
+def edit_goal(id):
+    goal = Goal.query.filter_by(
+        id=id,
+        user_id=session["user_id"]
+    ).first_or_404()
+
+    error = None
+
+    form_data = {
+        "name": goal.name,
+        "target_amount": str(goal.target_amount),
+        "saved_amount": str(goal.saved_amount),
+    }
+
+    if request.method == "POST":
+        if not validate_csrf():
+            return "Недействительный запрос. Обновите страницу и попробуйте снова.", 400
+
+        form_data.update({
+            "name": request.form.get("name", "").strip(),
+            "target_amount": request.form.get("target_amount", "").strip(),
+            "saved_amount": request.form.get("saved_amount", "").strip(),
+        })
+
+        name = form_data["name"]
+        target_amount = parse_amount(form_data["target_amount"])
+
+        try:
+            saved_amount = Decimal(
+                form_data["saved_amount"].replace(",", ".").strip()
+                or "0"
+            )
+        except (AttributeError, InvalidOperation):
+            saved_amount = None
+
+        if not name:
+            error = "Введите название цели."
+
+        elif len(name) > 100:
+            error = "Название цели не должно превышать 100 символов."
+
+        elif target_amount is None:
+            error = "Введите корректную сумму цели."
+
+        elif (
+            saved_amount is None
+            or not saved_amount.is_finite()
+            or saved_amount < 0
+        ):
+            error = "Введите корректную сумму накоплений."
+
+        elif saved_amount > target_amount:
+            error = "Накопленная сумма не может быть больше суммы цели."
+
+        else:
+            goal.name = name
+            goal.target_amount = target_amount
+            goal.saved_amount = saved_amount.quantize(
+                Decimal("0.01")
+            )
+
+            db.session.commit()
+
+            flash("Цель изменена.", "success")
+
+            return redirect(url_for("goals"))
+
+    return render_template(
+        "edit_goal.html",
+        goal=goal,
+        error=error,
+        form_data=form_data,
+    )
+
+@app.post("/goals/delete/<int:id>")
+@login_required
+def delete_goal(id):
+    if not validate_csrf():
+        return "Недействительный запрос. Обновите страницу и попробуйте снова.", 400
+
+    goal = Goal.query.filter_by(
+        id=id,
+        user_id=session["user_id"]
+    ).first_or_404()
+
+    db.session.delete(goal)
+    db.session.commit()
+
+    flash("Цель удалена.", "success")
+    return redirect(url_for("goals"))
 
 @app.route("/add", methods=["GET", "POST"])
 @login_required
