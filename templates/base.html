@@ -25,7 +25,7 @@
                 <span class="theme-icon">🌙</span>
                 <span class="theme-text">Тёмная тема</span>
             </button>
-            <a href="{{ url_for('index') }}">Обзор</a>
+            <a href="{{ url_for('index') }}">Главная</a>
             <a class="nav-button" href="{{ url_for('add_transaction') }}">+ Операция</a>
             <form action="{{ url_for('logout') }}" method="post" class="inline-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
