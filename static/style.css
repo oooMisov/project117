@@ -675,3 +675,29 @@ html[data-theme="dark"] a {
 html[data-theme="dark"] a:hover {
     color: #bfdbfe;
 }
+
+/* Fix login card readability */
+.auth-card h1 {
+    color: #111827 !important;
+}
+
+.auth-card label {
+    color: #334155 !important;
+}
+
+.auth-card .muted {
+    color: #64748b !important;
+}
+
+.auth-footer {
+    color: #64748b !important;
+}
+
+.auth-footer a {
+    color: #2563eb !important;
+}
+
+.auth-card input {
+    color: #f9fafb !important;
+    background: #0f172a;
+}
