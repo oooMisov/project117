@@ -701,3 +701,30 @@ html[data-theme="dark"] a:hover {
     color: #f9fafb !important;
     background: #0f172a;
 }
+
+/* Login page in dark theme */
+html[data-theme="dark"] .auth-card {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] .auth-card h1 {
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] .auth-card label,
+html[data-theme="dark"] .auth-card .form label {
+    color: #334155 !important;
+}
+
+html[data-theme="dark"] .auth-card .muted {
+    color: #64748b !important;
+}
+
+html[data-theme="dark"] .auth-card .auth-footer {
+    color: #64748b !important;
+}
+
+html[data-theme="dark"] .auth-card .auth-footer a {
+    color: #2563eb !important;
+}
