@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f172a">
-    <script>
-        (() => {
-            const theme = localStorage.getItem('theme');
-            if (theme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-    </script>
     <title>{% block title %}Мой бюджет{% endblock %}</title>
+    <script>
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+    }
+    </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -21,16 +20,18 @@
         <a class="brand" href="{{ url_for('index') }}">💰 <span>Мой бюджет</span></a>
         {% if current_user %}
         <nav class="nav">
-            <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
-                <span class="theme-icon">🌙</span>
-                <span class="theme-text">Тёмная тема</span>
-            </button>
             <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('goals') }}">🎯 Цели</a>
             <a class="nav-button" href="{{ url_for('add_transaction') }}">+ Операция</a>
             <form action="{{ url_for('logout') }}" method="post" class="inline-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="nav-link">Выйти</button>
             </form>
+            <button type="button" class="theme-toggle" id="theme-toggle">
+    🌙 <span class="theme-text">Тёмная тема</span>
+</button>
+         
+
         </nav>
         {% endif %}
     </div>
@@ -48,40 +49,35 @@
     {% endwith %}
     {% block content %}{% endblock %}
 </main>
-
 <script>
-    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggle = document.getElementById("theme-toggle");
+    const html = document.documentElement;
 
     function updateThemeButton() {
-        if (!themeToggle) return;
+        const isDark = html.getAttribute("data-theme") === "dark";
 
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        themeToggle.querySelector('.theme-icon').textContent = isDark ? '☀️' : '🌙';
-        themeToggle.querySelector('.theme-text').textContent =
-            isDark ? 'Светлая тема' : 'Тёмная тема';
-        themeToggle.setAttribute(
-            'aria-label',
-            isDark ? 'Переключить на светлую тему' : 'Переключить на тёмную тему'
-        );
+        if (isDark) {
+            themeToggle.innerHTML = '☀️ <span class="theme-text">Светлая тема</span>';
+        } else {
+            themeToggle.innerHTML = '🌙 <span class="theme-text">Тёмная тема</span>';
+        }
     }
 
-    if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+        const isDark = html.getAttribute("data-theme") === "dark";
+
+        if (isDark) {
+            html.removeAttribute("data-theme");
+            localStorage.setItem("theme", "light");
+        } else {
+            html.setAttribute("data-theme", "dark");
+            localStorage.setItem("theme", "dark");
+        }
+
         updateThemeButton();
+    });
 
-        themeToggle.addEventListener('click', () => {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-
-            if (isDark) {
-                document.documentElement.removeAttribute('data-theme');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
-            }
-
-            updateThemeButton();
-        });
-    }
+    updateThemeButton();
 </script>
 </body>
 </html>

@@ -5,3 +5,8 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+.vercel
+.env*
+download
+old-deployment/

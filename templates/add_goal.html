@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Новая цель — Мой бюджет{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">Накопления</div>
+        <h1>Новая цель</h1>
+        <p class="muted">
+            Укажи, сколько нужно накопить и сколько уже есть.
+        </p>
+    </div>
+</div>
+
+{% if error %}
+<div class="alert">
+    {{ error }}
+</div>
+{% endif %}
+
+<section class="form-card">
+
+    <form method="post" class="form">
+
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+        <div class="field">
+            <label for="name">Название цели</label>
+
+            <input
+                id="name"
+                name="name"
+                type="text"
+                maxlength="100"
+                placeholder="Например: Новый телефон"
+                value="{{ form_data.name }}"
+                required
+            >
+        </div>
+
+        <div class="field">
+            <label for="target_amount">
+                Сумма цели
+            </label>
+
+            <input
+                id="target_amount"
+                name="target_amount"
+                type="text"
+                inputmode="decimal"
+                placeholder="Например: 100000"
+                value="{{ form_data.target_amount }}"
+                required
+            >
+
+            <div class="field-hint">
+                Сколько всего нужно накопить.
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="saved_amount">
+                Уже накоплено
+            </label>
+
+            <input
+                id="saved_amount"
+                name="saved_amount"
+                type="text"
+                inputmode="decimal"
+                placeholder="Например: 25000"
+                value="{{ form_data.saved_amount }}"
+            >
+
+            <div class="field-hint">
+                Можно оставить 0, если пока ничего не накоплено.
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button
+                type="submit"
+                class="button button-primary button-wide"
+            >
+                Создать цель
+            </button>
+        </div>
+
+        <a
+            href="{{ url_for('goals') }}"
+            class="button button-secondary button-wide"
+        >
+            Отмена
+        </a>
+
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,53 +1,57 @@
 :root {
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: #172033;
-    background: #f6f8fb;
-    font-synthesis: none;
-
     --ink: #172033;
-    --muted: #6b7280;
-    --line: #e7ebf1;
+    --muted: #64748b;
+    --line: #e2e8f0;
     --surface: #ffffff;
-    --page-bg: #f6f8fb;
+    --background: #f6f8fb;
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
-    --positive: #087443;
-    --positive-bg: #e9f8f0;
-    --negative: #c0392b;
-    --negative-bg: #fff0ee;
-    --input-bg: #ffffff;
-    --table-head-bg: #fbfcfe;
-    --secondary-bg: #ffffff;
-    --counter-bg: #f1f4f8;
-    --counter-text: #4b5563;
-    --shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    --positive: #008f5a;
+    --positive-bg: #e9f9f2;
+    --negative: #c73524;
+    --negative-bg: #fff0ed;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
-:root[data-theme="dark"] {
-    color: #e5e7eb;
-    background: #0b1120;
-
-    --ink: #e5e7eb;
-    --muted: #9ca3af;
-    --line: #263244;
-    --surface: #111827;
-    --page-bg: #0b1120;
-    --primary: #60a5fa;
-    --primary-dark: #3b82f6;
-    --positive: #4ade80;
-    --positive-bg: #123524;
+html[data-theme="dark"] {
+    --ink: #f1f5f9;
+    --muted: #94a3b8;
+    --line: #334155;
+    --surface: #1e293b;
+    --background: #0f172a;
+    --primary: #3b82f6;
+    --primary-dark: #60a5fa;
+    --positive: #34d399;
+    --positive-bg: #064e3b;
     --negative: #f87171;
-    --negative-bg: #3a1d20;
-    --input-bg: #0f172a;
-    --table-head-bg: #172033;
-    --secondary-bg: #172033;
-    --counter-bg: #1f2937;
-    --counter-text: #d1d5db;
-    --shadow: 0 10px 30px rgba(0, 0, 0, .22);
+    --negative-bg: #450a0a;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
+
+html[data-theme="dark"] {
+    --ink: #f1f5f9;
+    --muted: #94a3b8;
+    --line: #334155;
+    --surface: #1e293b;
+    --background: #0f172a;
+    --primary: #3b82f6;
+    --primary-dark: #60a5fa;
+    --positive: #34d399;
+    --positive-bg: #064e3b;
+    --negative: #f87171;
+    --negative-bg: #450a0a;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
 
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; background: var(--page-bg); color: var(--ink); transition: background .2s ease, color .2s ease; }
+body { margin: 0; margin: 0; background: #f6f8fb; color: var(--ink); }
+body {
+    margin: 0;
+    margin: 0;
+    background: var(--background);
+    color: var(--ink);
+}
 a { color: var(--primary); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -56,35 +60,10 @@ a:hover { text-decoration: underline; }
 .brand { color: #fff; font-size: 20px; font-weight: 800; letter-spacing: -.02em; text-decoration: none; }
 .nav { display: flex; align-items: center; gap: 18px; }
 .nav a { color: #dbe4f2; font-size: 14px; font-weight: 600; }
-.nav-button { background: var(--secondary-bg); color: var(--ink) !important; padding: 9px 14px; border-radius: 9px; }
+.nav-button { background: #fff; color: #0f172a !important; padding: 9px 14px; border-radius: 9px; }
 .nav-link { color: #dbe4f2; background: none; padding: 0; font: inherit; font-weight: 600; }
 .nav-link:hover { background: none; color: #fff; }
 .inline-form { margin: 0; }
-
-.theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border: 1px solid rgba(255, 255, 255, .16);
-    border-radius: 9px;
-    padding: 8px 11px;
-    background: rgba(255, 255, 255, .08);
-    color: #dbe4f2;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 650;
-    cursor: pointer;
-    transition: background .2s ease, border-color .2s ease;
-}
-
-.theme-toggle:hover {
-    background: rgba(255, 255, 255, .15);
-    border-color: rgba(255, 255, 255, .25);
-}
-
-.theme-icon {
-    line-height: 1;
-}
 
 .container { max-width: 1120px; margin: 0 auto; padding: 42px 24px 64px; }
 .page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
@@ -96,7 +75,7 @@ a:hover { text-decoration: underline; }
 .button:hover { text-decoration: none; }
 .button-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, .18); }
 .button-primary:hover { background: var(--primary-dark); }
-.button-secondary { background: var(--secondary-bg); color: var(--ink); border: 1px solid var(--line); }
+.button-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
 .button-wide { width: 100%; margin-top: 8px; }
 
 .summary-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
@@ -112,13 +91,13 @@ a:hover { text-decoration: underline; }
 .section-card, .form-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
 .section-heading { padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
 .section-heading h2 { margin: 0 0 4px; font-size: 20px; letter-spacing: -.02em; }
-.counter { display: grid; place-items: center; min-width: 32px; height: 32px; border-radius: 999px; background: var(--counter-bg); color: var(--counter-text); font-size: 13px; font-weight: 750; }
+.counter { display: grid; place-items: center; min-width: 32px; height: 32px; border-radius: 999px; background: #f1f4f8; color: #4b5563; font-size: 13px; font-weight: 750; }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
 th, td { padding: 15px 24px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
-th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .07em; font-weight: 800; background: var(--table-head-bg); }
+th { color: #687386; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; font-weight: 800; background: #fbfcfe; }
 tbody tr:last-child td { border-bottom: 0; }
-.date-cell { white-space: nowrap; color: var(--muted); }
+.date-cell { white-space: nowrap; color: #687386; }
 .align-right { text-align: right; }
 .amount { white-space: nowrap; font-weight: 800; }
 .type-pill { display: inline-flex; padding: 5px 9px; border-radius: 999px; font-size: 12px; font-weight: 800; }
@@ -126,7 +105,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .type-pill.expense { background: var(--negative-bg); color: var(--negative); }
 .comment { margin-top: 4px; color: var(--muted); font-size: 12px; max-width: 340px; overflow-wrap: anywhere; }
 .action-cell { width: 1%; white-space: nowrap; }
-.icon-button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--secondary-bg); color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; }
+.icon-button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #6b7280; font: inherit; font-size: 12px; cursor: pointer; }
 .icon-button:hover { color: var(--negative); border-color: #f0c8c4; background: #fff7f6; }
 
 .empty-state { padding: 54px 24px; text-align: center; }
@@ -136,8 +115,8 @@ tbody tr:last-child td { border-bottom: 0; }
 
 .form-card { max-width: 760px; padding: 28px; }
 .form { display: grid; gap: 10px; }
-.form label { margin-top: 6px; font-size: 13px; font-weight: 800; color: var(--ink); }
-.form input, .form select { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 9px; background: var(--input-bg); padding: 0 12px; color: var(--ink); font: inherit; outline: none; }
+.form label { margin-top: 6px; font-size: 13px; font-weight: 800; color: #344054; }
+.form input, .form select { width: 100%; min-height: 44px; border: 1px solid #d9dee7; border-radius: 9px; background: #fff; padding: 0 12px; color: var(--ink); font: inherit; outline: none; }
 .form input:focus, .form select:focus { border-color: #7aa2f7; box-shadow: 0 0 0 3px rgba(37, 99, 235, .10); }
 .form-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
 .field { display: flex; flex-direction: column; gap: 7px; }
@@ -147,7 +126,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .form-actions { margin-top: 4px; }
 
 .auth-shell { min-height: calc(100vh - 180px); display: grid; place-items: center; }
-.auth-card { width: min(100%, 430px); padding: 34px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+.auth-card { width: min(100%, 430px); padding: 34px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
 .auth-card .form { margin-top: 24px; }
 .auth-footer { margin: 22px 0 0; color: var(--muted); font-size: 14px; text-align: center; }
 .alert { margin: 18px 0 4px; padding: 11px 13px; border-radius: 9px; background: #fff0ee; color: #a33228; font-size: 13px; line-height: 1.45; }
@@ -159,34 +138,8 @@ tbody tr:last-child td { border-bottom: 0; }
     .header-inner { padding: 14px 16px; align-items: flex-start; }
     .brand span { display: none; }
     .nav { flex-wrap: wrap; justify-content: flex-end; gap: 10px 13px; }
-    .nav a, .nav-link, .theme-toggle { font-size: 13px; }
-    .theme-text { display: none; }
-    .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border: 1px solid rgba(255, 255, 255, .16);
-    border-radius: 9px;
-    padding: 8px 11px;
-    background: rgba(255, 255, 255, .08);
-    color: #dbe4f2;
-    font: inherit;
-    font-size: 13px;
-    font-weight: 650;
-    cursor: pointer;
-    transition: background .2s ease, border-color .2s ease;
-}
-
-.theme-toggle:hover {
-    background: rgba(255, 255, 255, .15);
-    border-color: rgba(255, 255, 255, .25);
-}
-
-.theme-icon {
-    line-height: 1;
-}
-
-.container { padding: 28px 16px 48px; }
+    .nav a, .nav-link { font-size: 13px; }
+    .container { padding: 28px 16px 48px; }
     .page-heading { align-items: stretch; flex-direction: column; }
     .page-heading .button { align-self: flex-start; }
     .summary-grid { grid-template-columns: 1fr; }
@@ -206,45 +159,519 @@ tbody tr:last-child td { border-bottom: 0; }
     .summary-card { padding: 18px; }
     .summary-card strong { font-size: 26px; }
 }
-
-/* Auth card text colors */
-.auth-card h1 {
-    color: #111827;
+.theme-toggle {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 9px 12px;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    transition: 0.2s;
 }
 
-.auth-card label {
-    color: #334155;
+.theme-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
-.auth-card .muted {
-    color: #6b7280;
+/* =========================
+   GOALS
+   ========================= */
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
 }
 
-.auth-footer {
-    color: #6b7280;
+.goal-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow);
 }
 
-.auth-footer a {
-    color: #2563eb;
+.goal-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
 }
 
-/* Dark theme */
-html[data-theme="dark"] .auth-card h1 {
-    color: #f9fafb;
+.goal-icon {
+    font-size: 25px;
+    margin-bottom: 8px;
 }
 
-html[data-theme="dark"] .auth-card label {
-    color: #e5e7eb;
+.goal-card h2 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: -.02em;
 }
 
-html[data-theme="dark"] .auth-card .muted {
-    color: #9ca3af;
+.goal-percent {
+    display: grid;
+    place-items: center;
+    min-width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--positive-bg);
+    color: var(--positive);
+    font-size: 14px;
+    font-weight: 800;
 }
 
-html[data-theme="dark"] .auth-footer {
-    color: #9ca3af;
+.goal-progress {
+    height: 10px;
+    margin: 24px 0 18px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--line);
 }
 
-html[data-theme="dark"] .auth-footer a {
+.goal-progress-bar {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--primary);
+    transition: width .3s ease;
+}
+
+.goal-amounts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.goal-amounts span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.goal-amounts strong {
+    font-size: 18px;
+}
+
+.goal-target {
+    text-align: right;
+}
+
+.goal-remaining {
+    margin-top: 20px;
+    padding: 13px 15px;
+    border-radius: 10px;
+    background: var(--negative-bg);
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.goal-remaining strong {
+    color: var(--ink);
+}
+
+.goal-delete-form {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.goal-delete-form .icon-button {
+    color: var(--muted);
+}
+
+/* Мобильная версия */
+
+@media (max-width: 760px) {
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-card {
+        padding: 20px;
+    }
+}
+.goal-actions {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+
+.goal-money-form {
+    display: flex;
+    gap: 8px;
+}
+
+.goal-money-form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 42px;
+    border: 1px solid #d9dee7;
+    border-radius: 9px;
+    padding: 0 12px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    outline: none;
+}
+
+.goal-money-form input:focus {
+    border-color: #7aa2f7;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .10);
+}
+
+.goal-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.goal-buttons form {
+    margin: 0;
+}
+
+.button-danger {
+    background: #fff;
+    color: var(--negative);
+    border: 1px solid #f0c8c4;
+}
+
+.button-danger:hover {
+    background: var(--negative-bg);
+}
+
+@media (max-width: 600px) {
+    .goal-money-form {
+        flex-direction: column;
+    }
+
+    .goal-buttons {
+        flex-direction: column;
+    }
+
+    .goal-buttons .button,
+    .goal-buttons form {
+        width: 100%;
+    }
+}
+/* ================================
+   ИСПРАВЛЕНИЯ ДЛЯ ТЁМНОЙ ТЕМЫ
+   ================================ */
+
+html[data-theme="dark"] {
+    --ink: #f4f7ff;
+    --muted: #b8c4d8;
+    --line: #34445f;
+    --surface: #1d2a3e;
+    --background: #0f172a;
+
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+
+    --positive: #22c55e;
+    --positive-bg: #064e3b;
+
+    --negative: #ff6b6b;
+    --negative-bg: #5b1111;
+
+    --shadow: 0 10px 30px rgba(0, 0, 0, .25);
+}
+
+/* Основной фон и обычный текст */
+html[data-theme="dark"] body {
+    background: var(--background) !important;
+    color: var(--ink) !important;
+}
+
+html[data-theme="dark"] p,
+html[data-theme="dark"] .muted {
+    color: var(--muted) !important;
+}
+
+/* Заголовки */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4 {
+    color: #f8fbff !important;
+}
+
+/* Карточки */
+html[data-theme="dark"] .section-card,
+html[data-theme="dark"] .form-card,
+html[data-theme="dark"] .summary-card,
+html[data-theme="dark"] .goal-card {
+    background: #1d2a3e !important;
+    color: #f4f7ff !important;
+    border-color: #34445f !important;
+}
+
+/* Заголовок блока целей */
+html[data-theme="dark"] .section-heading {
+    background: #1d2a3e !important;
+    border-color: #34445f !important;
+}
+
+html[data-theme="dark"] .section-heading h2 {
+    color: #f8fbff !important;
+}
+
+/* Карточки целей */
+html[data-theme="dark"] .goal-card {
+    background: #1d2a3e !important;
+    color: #f4f7ff !important;
+    border-color: #3b4d69 !important;
+}
+
+html[data-theme="dark"] .goal-card h2,
+html[data-theme="dark"] .goal-card h3,
+html[data-theme="dark"] .goal-card strong,
+html[data-theme="dark"] .goal-card span,
+html[data-theme="dark"] .goal-card div {
+    color: inherit;
+}
+
+/* Название цели */
+html[data-theme="dark"] .goal-card h2,
+html[data-theme="dark"] .goal-card h3 {
+    color: #f8fbff !important;
+}
+
+/* Подписи "Накоплено" и "Цель" */
+html[data-theme="dark"] .goal-card .goal-amounts,
+html[data-theme="dark"] .goal-card .goal-amounts span {
+    color: #b8c4d8 !important;
+}
+
+/* Сами суммы */
+html[data-theme="dark"] .goal-card .goal-amounts strong {
+    color: #ffffff !important;
+}
+
+/* Процент */
+html[data-theme="dark"] .goal-percent {
+    background: #064e3b !important;
+    color: #4ade80 !important;
+}
+
+/* Полоса прогресса */
+html[data-theme="dark"] .goal-progress {
+    background: #33445f !important;
+}
+
+html[data-theme="dark"] .goal-progress-bar {
+    background: #3b82f6 !important;
+}
+
+/* Все поля ввода в тёмной теме */
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .form input,
+html[data-theme="dark"] .goal-card input {
+    background: #111b2d !important;
+    color: #f8fbff !important;
+    border-color: #486080 !important;
+}
+
+/* Текст внутри поля */
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #8fa0ba !important;
+    opacity: 1;
+}
+
+/* Поле при нажатии */
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] select:focus,
+html[data-theme="dark"] textarea:focus {
+    background: #111b2d !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .25) !important;
+}
+
+/* Подписи над полями */
+html[data-theme="dark"] label,
+html[data-theme="dark"] .form label {
+    color: #f0f4fa !important;
+}
+
+/* Кнопки вторичного типа */
+html[data-theme="dark"] .button-secondary {
+    background: #1d2a3e !important;
+    color: #f8fbff !important;
+    border-color: #486080 !important;
+}
+
+html[data-theme="dark"] .button-secondary:hover {
+    background: #263750 !important;
+    color: #ffffff !important;
+}
+
+/* Кнопки "Изменить" */
+html[data-theme="dark"] .goal-card .button-secondary,
+html[data-theme="dark"] .goal-card button {
+    color: #f8fbff !important;
+}
+
+/* Кнопка удалить */
+html[data-theme="dark"] .goal-card .delete-button,
+html[data-theme="dark"] .goal-card .button-danger {
+    background: #5b1111 !important;
+    color: #ffb4b4 !important;
+    border-color: #9b2c2c !important;
+}
+
+/* Кнопка пополнения */
+html[data-theme="dark"] .goal-card .button-primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .goal-card .button-primary:hover {
+    background: #3b82f6 !important;
+}
+
+/* Текст ссылок */
+html[data-theme="dark"] a {
+    color: #8db7ff;
+}
+
+html[data-theme="dark"] a:hover {
+    color: #b5d0ff;
+}
+
+/* Сообщение "Цель удалена" */
+html[data-theme="dark"] .flash-success {
+    background: #064e3b !important;
+    color: #6ee7b7 !important;
+}
+
+/* Сообщения об ошибках */
+html[data-theme="dark"] .alert {
+    background: #5b1111 !important;
+    color: #ffb4b4 !important;
+}
+
+/* Разделители */
+html[data-theme="dark"] hr {
+    border-color: #34445f !important;
+}
+
+/* Иконки и пустые состояния */
+html[data-theme="dark"] .empty-icon {
+    background: #172642 !important;
+}
+
+/* Кнопка переключения темы */
+html[data-theme="dark"] .theme-toggle {
+    background: #1d2a3e !important;
+    color: #f8fbff !important;
+    border-color: #486080 !important;
+}
+
+/* =========================================================
+   ДОПОЛНИТЕЛЬНЫЙ КОНТРАСТ ДЛЯ ТЁМНОЙ ТЕМЫ
+   ========================================================= */
+
+html[data-theme="dark"] {
+    --ink: #f8fafc;
+    --muted: #cbd5e1;
+    --line: #475569;
+    --surface: #1e293b;
+    --background: #0f172a;
+}
+
+/* Весь основной текст */
+html[data-theme="dark"] body {
+    color: #f8fafc;
+}
+
+/* Обычный приглушённый текст */
+html[data-theme="dark"] .muted,
+html[data-theme="dark"] .field-hint {
+    color: #cbd5e1 !important;
+}
+
+/* Заголовки */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4 {
+    color: #f8fafc;
+}
+
+/* Подписи над суммами */
+html[data-theme="dark"] .goal-label,
+html[data-theme="dark"] .goal-card small,
+html[data-theme="dark"] .goal-card .muted {
+    color: #cbd5e1 !important;
+}
+
+/* Сами суммы */
+html[data-theme="dark"] .goal-card strong,
+html[data-theme="dark"] .goal-card b {
+    color: #ffffff !important;
+}
+
+/* Название цели */
+html[data-theme="dark"] .goal-card {
+    color: #f8fafc;
+}
+
+/* Поля ввода */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+    background: #0f1b30;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Кнопки */
+html[data-theme="dark"] .button {
+    color: #ffffff;
+}
+
+/* Кнопка "Добавить цель" */
+html[data-theme="dark"] .button-primary {
+    color: #ffffff !important;
+}
+
+/* Кнопка темы */
+html[data-theme="dark"] .theme-toggle {
+    color: #f8fafc;
+}
+
+/* Прогресс */
+html[data-theme="dark"] .progress-bar {
+    background: #334155;
+}
+
+/* Блок "Осталось накопить" */
+html[data-theme="dark"] .remaining {
+    color: #fecaca;
+}
+
+/* Разделители */
+html[data-theme="dark"] hr {
+    border-color: #475569;
+}
+
+/* Ссылки */
+html[data-theme="dark"] a {
     color: #93c5fd;
+}
+
+html[data-theme="dark"] a:hover {
+    color: #bfdbfe;
 }

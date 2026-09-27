@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Мои цели — Мой бюджет{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">Накопления</div>
+
+        <h1>Мои цели</h1>
+
+        <p class="muted">
+            Планируй покупки и следи за прогрессом накоплений.
+        </p>
+    </div>
+
+    <a class="button button-primary" href="{{ url_for('add_goal') }}">
+        + Добавить цель
+    </a>
+</div>
+
+<section class="section-card">
+
+    <div class="section-heading">
+        <div>
+            <h2>🎯 Цели</h2>
+
+            <p class="muted">
+                Здесь будут отображаться твои цели.
+            </p>
+        </div>
+    </div>
+
+    {% if goals %}
+
+    <div class="goals-grid">
+
+        {% for item in goals %}
+
+        <section class="goal-card">
+
+            <div class="goal-top">
+
+                <div>
+                    <div class="goal-icon">🎯</div>
+
+                    <h2>{{ item.goal.name }}</h2>
+                </div>
+
+                <div class="goal-percent">
+                    {{ item.progress }}%
+                </div>
+
+            </div>
+
+            <div class="goal-progress">
+
+                <div
+                    class="goal-progress-bar"
+                    style="width: {{ item.progress }}%;"
+                ></div>
+
+            </div>
+
+            <div class="goal-amounts">
+
+                <div>
+                    <span>Накоплено</span>
+
+                    <strong>
+                        {{ "%.2f"|format(item.saved|float) }} ₽
+                    </strong>
+                </div>
+
+                <div class="goal-target">
+                    <span>Цель</span>
+
+                    <strong>
+                        {{ "%.2f"|format(item.target|float) }} ₽
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="goal-remaining">
+                Осталось накопить:
+                <strong>
+                    {{ "%.2f"|format(item.remaining|float) }} ₽
+                </strong>
+            </div>
+            <div class="goal-actions">
+
+    <form
+        method="post"
+        action="{{ url_for('add_goal_money', id=item.goal.id) }}"
+        class="goal-money-form"
+    >
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+        <input
+            type="text"
+            name="amount"
+            inputmode="decimal"
+            placeholder="Сумма"
+            required
+        >
+
+        <button type="submit" class="button button-primary">
+            + Пополнить
+        </button>
+    </form>
+
+    <div class="goal-buttons">
+
+        <a
+            href="{{ url_for('edit_goal', id=item.goal.id) }}"
+            class="button button-secondary"
+        >
+            ✏️ Изменить
+        </a>
+
+        <form
+            method="post"
+            action="{{ url_for('delete_goal', id=item.goal.id) }}"
+            onsubmit="return confirm('Удалить эту цель?');"
+        >
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <button
+                type="submit"
+                class="button button-danger"
+            >
+                🗑 Удалить
+            </button>
+        </form>
+
+    </div>
+
+</div>
+        </section>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">🎯</div>
+
+        <h3>Пока нет целей</h3>
+
+        <p class="muted">
+            Создай первую цель и начни следить за накоплениями.
+        </p>
+
+        <a
+            class="button button-primary"
+            href="{{ url_for('add_goal') }}"
+        >
+            + Создать первую цель
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Изменить цель — Мой бюджет{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+    <div>
+        <div class="eyebrow">Накопления</div>
+
+        <h1>Изменить цель</h1>
+
+        <p class="muted">
+            Измени название, сумму цели или накопления.
+        </p>
+    </div>
+</div>
+
+{% if error %}
+<div class="alert">
+    {{ error }}
+</div>
+{% endif %}
+
+<section class="form-card">
+
+    <form method="post" class="form">
+
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+        <div class="field">
+
+            <label for="name">
+                Название цели
+            </label>
+
+            <input
+                id="name"
+                name="name"
+                type="text"
+                maxlength="100"
+                value="{{ form_data.name }}"
+                required
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label for="target_amount">
+                Сумма цели
+            </label>
+
+            <input
+                id="target_amount"
+                name="target_amount"
+                type="text"
+                inputmode="decimal"
+                value="{{ form_data.target_amount }}"
+                required
+            >
+
+            <div class="field-hint">
+                Сколько всего нужно накопить.
+            </div>
+
+        </div>
+
+        <div class="field">
+
+            <label for="saved_amount">
+                Уже накоплено
+            </label>
+
+            <input
+                id="saved_amount"
+                name="saved_amount"
+                type="text"
+                inputmode="decimal"
+                value="{{ form_data.saved_amount }}"
+            >
+
+            <div class="field-hint">
+                Сколько уже накоплено по этой цели.
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="button button-primary button-wide"
+            >
+                Сохранить изменения
+            </button>
+
+        </div>
+
+        <a
+            href="{{ url_for('goals') }}"
+            class="button button-secondary button-wide"
+        >
+            Отмена
+        </a>
+
+    </form>
+
+</section>
+
+{% endblock %}
