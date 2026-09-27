@@ -206,3 +206,45 @@ tbody tr:last-child td { border-bottom: 0; }
     .summary-card { padding: 18px; }
     .summary-card strong { font-size: 26px; }
 }
+
+/* Auth card text colors */
+.auth-card h1 {
+    color: #111827;
+}
+
+.auth-card label {
+    color: #334155;
+}
+
+.auth-card .muted {
+    color: #6b7280;
+}
+
+.auth-footer {
+    color: #6b7280;
+}
+
+.auth-footer a {
+    color: #2563eb;
+}
+
+/* Dark theme */
+html[data-theme="dark"] .auth-card h1 {
+    color: #f9fafb;
+}
+
+html[data-theme="dark"] .auth-card label {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .auth-card .muted {
+    color: #9ca3af;
+}
+
+html[data-theme="dark"] .auth-footer {
+    color: #9ca3af;
+}
+
+html[data-theme="dark"] .auth-footer a {
+    color: #93c5fd;
+}
